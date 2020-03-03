@@ -1,0 +1,26 @@
+import React, { useState } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+
+export default function ScoreBoard(props) {
+    return (
+        <View style={styles.where}>
+            <Text style = {styles.titleText}>Score:</Text>
+            <Text>{props.score}</Text>
+        </View>
+
+
+    )
+}
+
+ const styles = StyleSheet.create({
+    titleText: {
+        fontSize: 30,
+        color: 'black'
+    }, 
+
+    where: {
+        top: 50,
+        left: 200
+    }
+
+})
