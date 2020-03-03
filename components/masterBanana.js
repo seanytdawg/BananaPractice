@@ -56,7 +56,10 @@ state = {
 
     peelTheBanana = () => {
 
-this.setState({ bananaPeelProcess: "peeled" })
+        this.setState({ bananaPeelProcess: "half-peeled" }, () => {
+            setTimeout(() => this.setState({ bananaPeelProcess: "peeled" }), 100)
+        })
+   
 this.state.agingTimer > 0 && this.state.agingTimer <= 10 ?
 this.setState({ peelQuality: "not-nearly-ready", score: this.state.score + this.state.peelPoints.darkGreen })
 :
