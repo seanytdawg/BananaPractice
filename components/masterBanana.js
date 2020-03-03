@@ -2,21 +2,22 @@
 import React, { useState, Component, Dimensions } from 'react';
 import { StyleSheet, Text, View, Animated, Image, PanResponder } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import BananaPhase1 from '../components/bananaPhase1'
-import BananaPhase2 from '../components/bananaPhase2'
-import BananaPhase3 from '../components/bananaPhase3'
-import BananaPhase4 from '../components/bananaPhase4'
-import BananaPhase5 from '../components/bananaPhase5'
-import BananaPhase6 from '../components/bananaPhase6'
-import YellowSpotted from '../components/yellowSpotted'
-import HalfPeeledBanana from '../components/halfPeeled'
-import BareBanana from '../components/bareBanana'
+import BananaPhase1 from './bananaPhase1'
+import BananaPhase2 from './bananaPhase2'
+import BananaPhase3 from './bananaPhase3'
+import BananaPhase4 from './bananaPhase4'
+import BananaPhase5 from './bananaPhase5'
+import BananaPhase6 from './bananaPhase6'
+import YellowSpotted from './yellowSpotted'
+import HalfPeeledBanana from './halfPeeled'
+import BareBanana from './bareBanana'
 
 export default class MasterBanana extends Component {
 state = {
     bananaPosition: new Animated.ValueXY({ x: 30, y: 300 }),
     bananaPhase: 0,
     displayedText: new Animated.Value(0),
+    bareBananaPosition: new Animated.ValueXY({ x: 10, y: 199 }),
     swipedRight: false,
     swipedLeft: false,
     swipedUp: false,
@@ -98,7 +99,7 @@ setTimeout = () => {
             toValue: { x: 150, y: 850 },
             duration: 500
         }).start()
-        if (this.state.barrelPositionIndex === 0 && this.state.swipedForBarrel === false) {
+        if (this.props.barrelPositionIndex === 0 && this.state.swipedForBarrel === false) {
             this.setState({ swipedForBarrel: true })
             this.handlePeelToBarrelSuccess()
         }
@@ -118,7 +119,7 @@ setTimeout = () => {
             toValue: { x: 150, y: 850 },
             duration: 500
         }).start()
-        if (this.state.barrelPositionIndex === 3 && this.state.swipedForBarrel === false) {
+        if (this.props.barrelPositionIndex === 3 && this.state.swipedForBarrel === false) {
             // console.log("NICE!")
             this.setState({ swipedForBarrel: true })
             this.handlePeelToBarrelSuccess()
@@ -140,7 +141,7 @@ setTimeout = () => {
             toValue: { x: 150, y: 850 },
             duration: 500
         }).start()
-        if (this.state.barrelPositionIndex === 1 && this.state.swipedForBarrel === false) {
+        if (this.props.barrelPositionIndex === 1 && this.state.swipedForBarrel === false) {
             this.setState({ swipedForBarrel: true })
             this.handlePeelToBarrelSuccess()
             // console.log("NICE!")
@@ -161,7 +162,7 @@ setTimeout = () => {
             toValue: { x: 150, y: 850 },
             duration: 500
         }).start()
-        if (this.state.barrelPositionIndex === 2 && this.state.swipedForBarrel === false) {
+        if (this.props.barrelPositionIndex === 2 && this.state.swipedForBarrel === false) {
             this.setState({ swipedForBarrel: true })
             this.handlePeelToBarrelSuccess()
             // console.log("NICE!")
@@ -178,14 +179,6 @@ setTimeout = () => {
         this.interval = setInterval(
             () => {
                 this.setState((prevState) => ({ agingTimer: prevState.agingTimer + 1 }))
-                if (this.state.agingTimer % 10 === 0) {
-                    let newIndex = Math.floor(Math.random() * 4)               
-                    // console.log("rando", Math.round(Math.random() * 4))
-                    // console.log(newIndex)
-                    // console.log(num, this.state)
-                    this.setState({ barrelPositionIndex: newIndex })
-                    // console.log("ten")
-                }
             },
             1000);
         this.ageTheBanana()
@@ -353,7 +346,7 @@ render(){
     return (
     <Animated.View>
     {this.state.bananaPeelProcess === "full" ?
-    his.state.agingTimer > 0 && this.state.agingTimer <= 10 ?
+    this.state.agingTimer > 0 && this.state.agingTimer <= 10 ?
     this.phase1Banana
     :
     this.state.agingTimer > 10 && this.state.agingTimer <= 20 ?
@@ -396,3 +389,28 @@ render(){
 
 
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    peelImage: {
+        height: 120,
+        width: 180
+    },
+    swipedUp: {
+        transform: [
+            { perspective: 850 },
+            { translateY: -300 },
+            { rotateX: '360deg' }]
+    },
+    funkyText: {
+        width: 100,
+        height: 100,
+        top: 200,
+        left: 50
+    }
+});
