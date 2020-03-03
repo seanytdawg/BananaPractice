@@ -2,15 +2,6 @@
 import React, { useState, Component, Dimensions } from 'react';
 import { StyleSheet, Text, View, Animated, Image, PanResponder } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import swipeDirections from 'react-native-swipe-gestures'
-import BananaPeel from '../components/bananaPeel'
-import BananaPhase1 from '../components/bananaPhase1'
-import BananaPhase2 from '../components/bananaPhase2'
-import BananaPhase3 from '../components/bananaPhase3'
-import BananaPhase4 from '../components/bananaPhase4'
-import BananaPhase5 from '../components/bananaPhase5'
-import BananaPhase6 from '../components/bananaPhase6'
-import YellowSpotted from '../components/yellowSpotted'
 import Barrel from '../components/barrel'
 import HalfPeeledBanana from '../components/halfPeeled'
 import BareBanana from '../components/bareBanana'
@@ -20,7 +11,7 @@ import {Wave} from 'react-animated-text'
 import MasterBanana from '../components/masterBanana'
 export default class BananaGame extends Component {
     state = { 
-        bananaPosition: new Animated.ValueXY({x: 30, y: 300}),
+        bananaPosition: new Animated.ValueXY({ x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200)}),
         StartingBarrelPosition: new Animated.ValueXY({x: -20, y: 40}),
         barrelLeft: {x: -190, y: 350},
         barrelRight: {x: 150, y:350},
@@ -52,6 +43,8 @@ export default class BananaGame extends Component {
     peelPoints: {darkGreen: -4, lightGreen: -1, yellow: 2, yellowSpotted: 3, slightlyBruised: 1, bruised: -1, rotten: -5}
     }
 
+    randomBananaPositionX = Math.floor(Math.random() * 199) - 99
+    randomBananaPositionY = Math.floor(Math.random() * 199) - 99
     
     componentDidMount = () => {
             
@@ -84,7 +77,10 @@ export default class BananaGame extends Component {
             <Barrel />
                 </Animated.View>
                 <Animated.View>
-                <MasterBanana barrelPositionIndex = {this.state.barrelPositionIndex}/>
+                <MasterBanana barrelPositionIndex = {this.state.barrelPositionIndex}
+                randomBananaPositionX = {this.randomBananaPositionX}
+                randomBananaPositionY = {this.randomBananaPositionY}
+                />
                 </Animated.View>
             </Animated.View>
          </View>

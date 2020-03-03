@@ -14,10 +14,10 @@ import BareBanana from './bareBanana'
 
 export default class MasterBanana extends Component {
 state = {
-    bananaPosition: new Animated.ValueXY({ x: 30, y: 300 }),
+    bananaPosition: new Animated.ValueXY({ x: this.props.randomBananaPositionX, y: this.props.randomBananaPositionY }),
     bananaPhase: 0,
     displayedText: new Animated.Value(0),
-    bareBananaPosition: new Animated.ValueXY({ x: 10, y: 199 }),
+    bareBananaPosition: new Animated.ValueXY({ x: (this.props.randomBananaPositionX + 20), y: (this.props.randomBananaPositionY + 101) }),
     swipedRight: false,
     swipedLeft: false,
     swipedUp: false,
