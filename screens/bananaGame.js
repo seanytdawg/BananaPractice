@@ -36,22 +36,24 @@ export default class BananaGame extends Component {
      runAgingTimer: true,
      spinAnim: new Animated.Value(0),
      gestureName: 'none',
+     bananaArray : [],
      peelToBarrelSuccess: false,
      score: 0,
      missedBarrel: false, 
      peelQuality: "none",
-    peelPoints: {darkGreen: -4, lightGreen: -1, yellow: 2, yellowSpotted: 3, slightlyBruised: 1, bruised: -1, rotten: -5}
+    peelPoints: {darkGreen: -4, lightGreen: -1, yellow: 2, yellowSpotted: 3, slightlyBruised: 1, bruised: -1, rotten: -5},
+    randomBananaPositionX: Math.floor(Math.random() * 200 - 100),
+    randomBananaPositionY: Math.floor(Math.random() * 400 + 200)
     }
 
-    randomBananaPositionX = Math.floor(Math.random() * 199) - 99
-    randomBananaPositionY = Math.floor(Math.random() * 199) - 99
     
     componentDidMount = () => {
             
     this.interval = setInterval(
         () => {
-            this.setState((prevState) => ({ barrelTimer: prevState.agingTimer + 1 }))
+            this.setState((prevState) => ({ barrelTimer: prevState.barrelTimer + 1 }))
             if (this.state.barrelTimer % 10 === 0) {
+                // console.log("barrel time!")
                 let newIndex = Math.floor(Math.random() * 4)                // console.log("rando", Math.round(Math.random() * 4))
                 // console.log(newIndex)
                 // console.log(num, this.state)
@@ -60,29 +62,65 @@ export default class BananaGame extends Component {
             }
         },
         1000);
+
+        this.renderBananas()
+    }
+    renderBananas(){
+    setInterval(
+        () => {
+           let  newBanana = 
+                <MasterBanana barrelPositionIndex={this.state.barrelPositionIndex}
+                    randomBananaPositionX={this.state.randomBananaPositionX}
+                    randomBananaPositionY={this.state.randomBananaPositionY}
+                    addUpScore={this.addUpScore}
+                //    key={Math.floor(Math.random() * 10000)}
+                //     removeBanana={this.removeBanana}
+                    />
+                    console.log("new",newBanana)
+                    console.log(this.state.bananaArray)
+                if(this.state.bananaArray && newBanana){
+            this.setState({ bananaArray: [...this.state.bananaArray, newBanana], randomBananaPositionX: Math.floor(Math.random() * 200 - 100), randomBananaPositionY: Math.floor(Math.random() * 400 + 200)})
+        }},
+        5000);}
+    
+
+        addUpScore=(points)=>{
+            this.setState({score: this.state.score + points})
+        }
+
+    removeBanana=(key)=>{
+        if (this.state.bananaArray){
+       let newArray = this.state.bananaArray.filter(banana=>{
+            banana != banana
+            this.setState({bananaArray: newArray})
+            console.log("bananaray", this.state.bananaArray.length)
+        })}
+        
     }
 
     render(){
         return (
         <View>
-            <Animated.View >
                 <Animated.View>
             <ScoreBoard score={this.state.score}/>
                 </Animated.View>
                 <Animated.View style={[styles.container, {top: 100, left: -160}]}>
                     <Text style={10}>Time: </Text>
-            <GameClock />
+            <GameClock endGame={this.props.endGame}/>
                 </Animated.View>
                 <Animated.View style={[styles.container, { left: this.state.anyBarrelPosition[this.state.barrelPositionIndex].x, top: this.state.anyBarrelPosition[this.state.barrelPositionIndex].y }]}>
-            <Barrel />
+                <Barrel />
                 </Animated.View>
                 <Animated.View>
-                <MasterBanana barrelPositionIndex = {this.state.barrelPositionIndex}
-                randomBananaPositionX = {this.randomBananaPositionX}
-                randomBananaPositionY = {this.randomBananaPositionY}
-                />
+                    {this.state.bananaArray}
+                    {/* <MasterBanana barrelPositionIndex={this.state.barrelPositionIndex}
+                        randomBananaPositionX={this.state.randomBananaPositionX}
+                        randomBananaPositionY={this.state.randomBananaPositionY}
+                        addUpScore={this.addUpScore} */}
+                        {/* // key={Math.floor(Math.random() * 10000)}
+                        // removeBanana={this.removeBanana} 
+                        /> */}
                 </Animated.View>
-            </Animated.View>
          </View>
     );
     }

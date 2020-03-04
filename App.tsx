@@ -54,13 +54,17 @@ state = {
 //     }
 // }
 
+endGame=()=>{
+  this.setState({playGame: false})
+}
+
 render(){
   return (
     this.state.playGame ?
     <View style={{
       width: Dimensions.get("screen").width, height: Dimensions.get("screen").height}}
       >
-    <BananaGame/>
+    <BananaGame playGame = {this.state.playGame} endGame={this.endGame}/>
     </View>
   :
   <View style={styles.button}>

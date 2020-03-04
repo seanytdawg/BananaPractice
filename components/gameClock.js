@@ -3,13 +3,13 @@ import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 
 export default function GameClock(props) {
-    const [gamePause, setGamePause] = useState(true)
+    const [gamePause, setGamePause] = useState(false)
     return (
         <CountDown
             until={60}
             onFinish={() => {
                 alert('game over')
-                props.gameFinish()
+                props.endGame()
             }
             }
             size={50}

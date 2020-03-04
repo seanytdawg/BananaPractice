@@ -36,144 +36,185 @@ state = {
 }
 
 
-    onSwipeUp = () => {
-        this.setState({ swipedUp: true })
-        // console.log("swiped up")
-    }
-    onSwipeDown = () => {
-        // e.preventDefault()
-        this.setState({ swipedDown: true })
-        // console.log("swiped down")
-    }
-    onSwipeLeft = () => {
-        this.setState({ swipedLeft: true })
-        // console.log("swiped down")
-    }
-    onSwipeRight = () => {
-        this.setState({ swipedRight: true })
-        // console.log("swiped down")
-    }
+componentWillUnmount(){
+// this.destroy()
+
+}
+    // onSwipeUp = () => {
+    //     this.setState({ swipedUp: true })
+    //     // console.log("swiped up")
+    // }
+    // onSwipeDown = () => {
+    //     // e.preventDefault()
+    //     this.setState({ swipedDown: true })
+    //     // console.log("swiped down")
+    // }
+    // onSwipeLeft = () => {
+    //     this.setState({ swipedLeft: true })
+    //     // console.log("swiped down")
+    // }
+    // onSwipeRight = () => {
+    //     this.setState({ swipedRight: true })
+    //     // console.log("swiped down")
+    // }
 
     peelTheBanana = () => {
 
-        this.setState({ bananaPeelProcess: "half-peeled" }, () => {
-            setTimeout(() => this.setState({ bananaPeelProcess: "peeled" }), 100)
-        })
+        this.setState({ bananaPeelProcess: "peeled" }
+        // , () => {
+        //     setTimeout(() => this.setState({ bananaPeelProcess: "peeled" }), 100)
+        // }
+        )
    
-this.state.agingTimer > 0 && this.state.agingTimer <= 10 ?
-this.setState({ peelQuality: "not-nearly-ready", score: this.state.score + this.state.peelPoints.darkGreen })
+this.state.agingTimer > 0 && this.state.agingTimer <= 2 ?
+    [this.setState({ peelQuality: "not-nearly-ready", score: this.state.score + this.state.peelPoints.darkGreen }), this.props.addUpScore(this.state.peelPoints.darkGreen)]
 :
-this.state.agingTimer > 10 && this.state.agingTimer <= 20 ?
-this.setState({ peelQuality: "not-quite", score: this.state.score + this.state.peelPoints.lightGreen })
+this.state.agingTimer > 2 && this.state.agingTimer <= 4 ?
+[this.setState({ peelQuality: "not-quite", score: this.state.score + this.state.peelPoints.lightGreen }), this.props.addUpScore(this.state.peelPoints.lightGreen)]
 :
-this.state.agingTimer > 20 && this.state.agingTimer <= 30 ?
-this.setState({ peelQuality: "good", score: this.state.score + this.state.peelPoints.yellow })
+this.state.agingTimer > 4 && this.state.agingTimer <= 6 ?
+ [this.setState({ peelQuality: "good", score: this.state.score + this.state.peelPoints.yellow }), this.props.addUpScore(this.state.peelPoints.yellow)]
 :
-this.state.agingTimer > 30 && this.state.agingTimer <= 33 ?
-this.setState({ peelQuality: "yellow-spotted!", score: this.state.score + this.state.peelPoints.yellowSpotted })
+this.state.agingTimer > 6 && this.state.agingTimer <= 7 ?
+[this.setState({ peelQuality: "yellow-spotted!", score: this.state.score + this.state.peelPoints.yellowSpotted }), this.props.addUpScore(this.state.peelPoints.yellowSpotted)]
 :
-this.state.agingTimer > 33 && this.state.agingTimer <= 40 ?
-this.setState({ peelQuality: "Ok", score: this.state.score + this.state.peelPoints.slightlyBruised })
+this.state.agingTimer > 7 && this.state.agingTimer <= 9 ?
+ [this.setState({ peelQuality: "Ok", score: this.state.score + this.state.peelPoints.slightlyBruised }), this.props.addUpScore(this.state.peelPoints.slightlyBruised)]
 :
-this.state.agingTimer > 40 && this.state.agingTimer <= 50 ?
-this.setState({ peelQuality: "bruised", score: this.state.score + this.state.peelPoints.bruised })
+this.state.agingTimer > 9 && this.state.agingTimer <= 10 ?
+[this.setState({ peelQuality: "bruised", score: this.state.score + this.state.peelPoints.bruised }), this.props.addUpScore(this.state.peelPoints.bruised)]
 :
-this.state.agingTimer > 50 && this.state.agingTimer <= 60 ?
-this.setState({ peelQuality: "rotten", score: this.state.score + this.state.peelPoints.rotten })
+this.state.agingTimer > 11 && this.state.agingTimer <= 12 ?
+[this.setState({ peelQuality: "rotten", score: this.state.score + this.state.peelPoints.rotten }), this.props.addUpScore(this.state.peelPoints.rotten)]
 :
- null
+null
 }
 
-handlePeelToBarrelSuccess = () => {
-setTimeout = () => {
- this.setState({ peelToBarrelSuccess: true, score: this.state.score + 1 })
-    }, 500
-        // console.log(this.state)
-    }
+
+// swipedForBarrel=()=>{
+//     setTimeout = () => {
+//         this.setState({ swipedForBarrel: false})
+//     }, 2000
+// }
+
+// handlePeelToBarrelSuccess = () => {
+    
+//     setTimeout = () => {
+//         console.log("peel success timeout")
+//  this.setState({ peelToBarrelSuccess: true, score: this.state.score + 1 })
+//     }, 500
+//     console.log(this.state)
+//     }
 
     animateSwipedUp = () => {
+        console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
             toValue: { x: 5, y: 30 },
-
+            
             duration: 500,
-        }).start();
+        }).start(
+            () => { this.setState({ swipedForBarrel: true }) }
+        );
 
         Animated.timing(this.state.bareBananaPosition, {
             toValue: { x: 150, y: 850 },
             duration: 500
         }).start()
         if (this.props.barrelPositionIndex === 0 && this.state.swipedForBarrel === false) {
-            this.setState({ swipedForBarrel: true })
-            this.handlePeelToBarrelSuccess()
+            // this.swipedForBarrel()
+            // this.handlePeelToBarrelSuccess()
+            this.setState({ peelToBarrelSuccess: true, score: this.state.score + 1 })
+            console.log("barrel up?")
         }
         else {
-            this.setState({ swipedForBarrel: true })
+            // this.setState({ swipedForBarrel: true })
+            // this.swipedForBarrel()
             this.setState({ missedBarrel: true })
-
-            // console.log("miss!")
+            console.log("miss!")
         }
     }
     animateSwipedDown = () => {
+        console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
             toValue: { x: 5, y: 700 },
             duration: 500,
-        }).start();
-        Animated.timing(this.state.bareBananaPosition, {
-            toValue: { x: 150, y: 850 },
-            duration: 500
-        }).start()
-        if (this.props.barrelPositionIndex === 3 && this.state.swipedForBarrel === false) {
-            // console.log("NICE!")
-            this.setState({ swipedForBarrel: true })
-            this.handlePeelToBarrelSuccess()
-        }
-        else {
-            this.setState({ swipedForBarrel: true })
-            this.setState({ missedBarrel: true })
-            // console.log(this.state)
-
-        }
-    }
-    animateSwipedLeft = () => {
-        Animated.timing(this.state.bananaPosition, {
-            toValue: { x: -200, y: 300 },
-            duration: 500,
         }).start(
+            () => { this.setState({ swipedForBarrel: true }) }
         );
         Animated.timing(this.state.bareBananaPosition, {
             toValue: { x: 150, y: 850 },
             duration: 500
         }).start()
-        if (this.props.barrelPositionIndex === 1 && this.state.swipedForBarrel === false) {
-            this.setState({ swipedForBarrel: true })
-            this.handlePeelToBarrelSuccess()
-            // console.log("NICE!")
+        if (this.props.barrelPositionIndex === 3 && this.state.swipedForBarrel === false) {
+            console.log("barrel down?")
+            // this.swipedForBarrel()
+            // this.handlePeelToBarrelSuccess()
+            this.setState({ peelToBarrelSuccess: true, score: this.state.score + 1 })
         }
         else {
-            this.setState({ swipedForBarrel: true })
+            // this.swipedForBarrel()
+            // this.setState({ swipedForBarrel: true })
             this.setState({ missedBarrel: true })
             // console.log(this.state)
-
+            // this.props.removeBanana(this.props.key)
         }
     }
-    animateSwipedRight = () => {
+    animateSwipedLeft = () => {
+        console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
-            toValue: { x: 200, y: 300 },
+            toValue: { x: -200, y: 300 },
             duration: 500,
-        }).start();
+        }).start(
+            () => { this.setState({ swipedForBarrel: true }) } );
         Animated.timing(this.state.bareBananaPosition, {
             toValue: { x: 150, y: 850 },
             duration: 500
         }).start()
-        if (this.props.barrelPositionIndex === 2 && this.state.swipedForBarrel === false) {
-            this.setState({ swipedForBarrel: true })
-            this.handlePeelToBarrelSuccess()
+        if (this.props.barrelPositionIndex === 1 && this.state.swipedForBarrel === false) {
+            // this.setState({ swipedForBarrel: true })
+            console.log("barrel left?")
+            // this.swipedForBarrel()
+            this.setState({ peelToBarrelSuccess: true, score: this.state.score + 1 })
+            // this.handlePeelToBarrelSuccess()
             // console.log("NICE!")
         }
         else {
-            this.setState({ swipedForBarrel: true })
+            // this.setState({ swipedForBarrel: true })
+            // this.swipedForBarrel()
             this.setState({ missedBarrel: true })
             // console.log(this.state)
+            // this.props.removeBanana(this.props.key)
+        }
+    }
+    animateSwipedRight = () => {
+        console.log(this.props.barrelPositionIndex)
+        Animated.timing(this.state.bananaPosition, {
+            toValue: { x: 200, y: 300 },
+            duration: 500,
+        }).start(
+            () => { this.setState({ swipedForBarrel: true }) }
+        );
+        Animated.timing(this.state.bareBananaPosition, {
+            
+            toValue: { x: 150, y: 850 },
+            duration: 500
+        }
+        ).start(
+           
+        )
+        if (this.props.barrelPositionIndex === 2 && this.state.swipedForBarrel === false) {
+            // this.setState({ swipedForBarrel: true })
+            console.log("barrel right?")
+            // this.handlePeelToBarrelSuccess()
+            this.setState({ peelToBarrelSuccess: true, score: this.state.score + 1 })
+            // this.swipedForBarrel()
+        }
+        else {
+            // this.setState({ swipedForBarrel: true })
+            // this.swipedForBarrel()
+            this.setState({ missedBarrel: true })
+            // console.log(this.state)
+            // this.props.removeBanana(this.props.key)
         }
     }
 
@@ -188,25 +229,25 @@ setTimeout = () => {
     }
     ageTheBanana = () => {
         // console.log("aging", this.state)
-this.state.agingTimer > 0 && this.state.agingTimer < 10 ?
+this.state.agingTimer > 0 && this.state.agingTimer < 2?
 [this.setState({ bananaPhase: 1 }), console.log("yoo")]
 :
-this.state.agingTimer > 10 && this.state.agingTimer <= 20 ?
+this.state.agingTimer > 2 && this.state.agingTimer <= 4 ?
 this.setState({ bananaPhase: 2 })
 :
-this.state.agingTimer > 20 && this.state.agingTimer <= 30 ?
+this.state.agingTimer > 4 && this.state.agingTimer <= 6 ?
 this.setState({ bananaPhase: 3 })
 :
-this.state.agingTimer > 30 & this.state.agingTimer <= 33 ?
+this.state.agingTimer > 6 & this.state.agingTimer <= 7 ?
 this.setState({ bananaPhase: "yellow-spotted" })
 :
-this.state.agingTimer > 33 & this.state.agingTimer <= 40 ?
+this.state.agingTimer > 7 & this.state.agingTimer <= 9 ?
 this.setState({ bananaPhase: 4 })
 :
-this.state.agingTimer > 40 & this.state.agingTimer <= 50 ?
+this.state.agingTimer > 9 & this.state.agingTimer <= 10 ?
 this.setState({ bananaPhase: 5 })
 :
-this.state.agingTimer > 50 & this.state.agingTimer <= 60 ?
+this.state.agingTimer > 10 & this.state.agingTimer <= 11 ?
 this.setState({ bananaPhase: 6 })
 :
 null
@@ -341,7 +382,7 @@ null
 
 
     peelConfig = {
-        velocityThreshold: -5,
+        velocityThreshold: -100,
         directionalOffsetThreshold: 1
     }
 
@@ -349,25 +390,25 @@ render(){
     return (
     <Animated.View>
     {this.state.bananaPeelProcess === "full" ?
-    this.state.agingTimer > 0 && this.state.agingTimer <= 10 ?
+    this.state.agingTimer > 0 && this.state.agingTimer <= 2 ?
     this.phase1Banana
     :
-    this.state.agingTimer > 10 && this.state.agingTimer <= 20 ?
+    this.state.agingTimer > 2 && this.state.agingTimer <= 4 ?
     this.phase2Banana
     :
-    this.state.agingTimer > 20 && this.state.agingTimer <= 30 ?
+    this.state.agingTimer > 4 && this.state.agingTimer <= 6 ?
     this.phase3Banana
     :
-    this.state.agingTimer > 30 && this.state.agingTimer <= 33 ?
+    this.state.agingTimer > 6 && this.state.agingTimer <= 8 ?
     this.yellowSpottedBanana
     :
-    this.state.agingTimer > 30 && this.state.agingTimer <= 40 ?
+    this.state.agingTimer > 8 && this.state.agingTimer <= 9 ?
     this.phase4Banana
     :
-    this.state.agingTimer > 40 && this.state.agingTimer <= 50 ?
+    this.state.agingTimer > 9 && this.state.agingTimer <= 10 ?
     this.phase5Banana
     :
-    this.state.agingTimer > 50 && this.state.agingTimer <= 60 ?
+    this.state.agingTimer > 11 && this.state.agingTimer <= 12 ?
     this.phase6Banana
     :
     null
@@ -376,7 +417,9 @@ render(){
     this.halfPeeledBanana
     :
     this.state.bananaPeelProcess === "peeled" ?
-    [this.peeledBanana, this.state.peelToBarrelSuccess ? null : this.bananaPeel,
+    [this.peeledBanana, 
+        this.state.swipedForBarrel ? null :
+         this.bananaPeel,
     this.state.peelQuality === "not-nearly-ready" ? this.peelResponseTextNotNearlyReady
     : this.state.peelQuality === "not-quite" ? this.peelResponseTextNotQuite
     : this.state.peelQuality === "good" ? this.peelResponseTextGood
