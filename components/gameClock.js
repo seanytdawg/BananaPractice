@@ -1,10 +1,11 @@
 import CountDown from 'react-native-countdown-component';
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
 export default function GameClock(props) {
     const [gamePause, setGamePause] = useState(false)
     return (
+        <View styles={styles.where}>
         <CountDown
             until={60}
             onFinish={() => {
@@ -20,5 +21,13 @@ export default function GameClock(props) {
             digitTxtStyle={{ color: '#1CC625' }}
             size={20}
         />
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    where:{
+        top: 1,
+        left: 100,
+    }
+})

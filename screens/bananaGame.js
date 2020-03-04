@@ -11,13 +11,13 @@ import {Wave} from 'react-animated-text'
 import MasterBanana from '../components/masterBanana'
 export default class BananaGame extends Component {
     state = { 
-        bananaPosition: new Animated.ValueXY({ x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200)}),
+        bananaPosition: new Animated.ValueXY({ x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 100)}),
         StartingBarrelPosition: new Animated.ValueXY({x: -20, y: 40}),
         barrelLeft: {x: -190, y: 350},
         barrelRight: {x: 150, y:350},
-        barrelUp: {x: -30, y: 60},
+        barrelUp: {x: -30, y: 20},
         barrelDown: {x: -30, y: 750},
-        anyBarrelPosition: [{ x: -30, y: 60 }, { x: -190, y: 350 }, { x: 150, y: 350 }, { x: -30, y: 750 }],
+        anyBarrelPosition: [{ x: -20, y: 0 }, { x: -190, y: 200 }, { x: 130, y: 200 }, { x: -20, y: 500 }],
         bareBananaPosition: new Animated.ValueXY({x: 10, y: 199}),
         barrelPositionIndex: 2,
         bananaPeelHeight:  new Animated.Value(80),
@@ -43,7 +43,7 @@ export default class BananaGame extends Component {
      peelQuality: "none",
     peelPoints: {darkGreen: -4, lightGreen: -1, yellow: 2, yellowSpotted: 3, slightlyBruised: 1, bruised: -1, rotten: -5},
     randomBananaPositionX: Math.floor(Math.random() * 200 - 100),
-    randomBananaPositionY: Math.floor(Math.random() * 400 + 200)
+    randomBananaPositionY: Math.floor(Math.random() * 100 - 150 )
     }
 
     
@@ -66,6 +66,7 @@ export default class BananaGame extends Component {
         this.renderBananas()
     }
     renderBananas(){
+        let key = 0
     setInterval(
         () => {
            let  newBanana = 
@@ -73,9 +74,12 @@ export default class BananaGame extends Component {
                     randomBananaPositionX={this.state.randomBananaPositionX}
                     randomBananaPositionY={this.state.randomBananaPositionY}
                     addUpScore={this.addUpScore}
+                    anyBarrelPosition ={this.state.anyBarrelPosition}
+                    key={key}
                 //    key={Math.floor(Math.random() * 10000)}
                 //     removeBanana={this.removeBanana}
                     />
+                    key ++
                     console.log("new",newBanana)
                     console.log(this.state.bananaArray)
                 if(this.state.bananaArray && newBanana){
@@ -104,7 +108,7 @@ export default class BananaGame extends Component {
                 <Animated.View>
             <ScoreBoard score={this.state.score}/>
                 </Animated.View>
-                <Animated.View style={[styles.container, {top: 100, left: -160}]}>
+                <Animated.View style={[styles.container, {top: 1, left: -160}]}>
                     <Text style={10}>Time: </Text>
             <GameClock endGame={this.props.endGame}/>
                 </Animated.View>
@@ -113,13 +117,6 @@ export default class BananaGame extends Component {
                 </Animated.View>
                 <Animated.View>
                     {this.state.bananaArray}
-                    {/* <MasterBanana barrelPositionIndex={this.state.barrelPositionIndex}
-                        randomBananaPositionX={this.state.randomBananaPositionX}
-                        randomBananaPositionY={this.state.randomBananaPositionY}
-                        addUpScore={this.addUpScore} */}
-                        {/* // key={Math.floor(Math.random() * 10000)}
-                        // removeBanana={this.removeBanana} 
-                        /> */}
                 </Animated.View>
          </View>
     );

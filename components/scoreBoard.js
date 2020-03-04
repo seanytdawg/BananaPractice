@@ -19,8 +19,10 @@ export default function ScoreBoard(props) {
     }, 
 
     where: {
-        top: 50,
-        left: 200
-    }
+        top: 20,
+        left: 250
+    }, 
+
+
 
 })

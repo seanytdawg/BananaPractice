@@ -79,8 +79,8 @@ render(){
 const styles = StyleSheet.create({
 
   button: {
-    flex: .05,
-    top: 400,
+    flex: .06,
+    top: 290,
     left: 0,
     backgroundColor: '#2B4141'
   }

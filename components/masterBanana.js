@@ -17,7 +17,7 @@ state = {
     bananaPosition: new Animated.ValueXY({ x: this.props.randomBananaPositionX, y: this.props.randomBananaPositionY }),
     bananaPhase: 0,
     displayedText: new Animated.Value(0),
-    bareBananaPosition: new Animated.ValueXY({ x: (this.props.randomBananaPositionX + 20), y: (this.props.randomBananaPositionY + 101) }),
+    bareBananaPosition: new Animated.ValueXY({ x: (this.props.randomBananaPositionX + 10), y: (this.props.randomBananaPositionY - 101) }),
     swipedRight: false,
     swipedLeft: false,
     swipedUp: false,
@@ -110,7 +110,7 @@ null
     animateSwipedUp = () => {
         console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
-            toValue: { x: 5, y: 30 },
+            toValue: this.props.anyBarrelPosition[0],
             
             duration: 500,
         }).start(
@@ -137,7 +137,7 @@ null
     animateSwipedDown = () => {
         console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
-            toValue: { x: 5, y: 700 },
+            toValue: this.props.anyBarrelPosition[3],
             duration: 500,
         }).start(
             () => { this.setState({ swipedForBarrel: true }) }
@@ -163,7 +163,7 @@ null
     animateSwipedLeft = () => {
         console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
-            toValue: { x: -200, y: 300 },
+            toValue: this.props.anyBarrelPosition[1],
             duration: 500,
         }).start(
             () => { this.setState({ swipedForBarrel: true }) } );
@@ -190,7 +190,7 @@ null
     animateSwipedRight = () => {
         console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
-            toValue: { x: 200, y: 300 },
+            toValue: this.props.anyBarrelPosition[2],
             duration: 500,
         }).start(
             () => { this.setState({ swipedForBarrel: true }) }
