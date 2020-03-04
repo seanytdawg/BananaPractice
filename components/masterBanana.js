@@ -76,7 +76,7 @@ this.state.agingTimer > 4 && this.state.agingTimer <= 6 ?
  [this.setState({ peelQuality: "good", score: this.state.score + this.state.peelPoints.yellow }), this.props.addUpScore(this.state.peelPoints.yellow)]
 :
 this.state.agingTimer > 6 && this.state.agingTimer <= 7 ?
-[this.setState({ peelQuality: "yellow-spotted!", score: this.state.score + this.state.peelPoints.yellowSpotted }), this.props.addUpScore(this.state.peelPoints.yellowSpotted)]
+[this.setState({ peelQuality: "yellow-spotted", score: this.state.score + this.state.peelPoints.yellowSpotted }), this.props.addUpScore(this.state.peelPoints.yellowSpotted)]
 :
 this.state.agingTimer > 7 && this.state.agingTimer <= 9 ?
  [this.setState({ peelQuality: "Ok", score: this.state.score + this.state.peelPoints.slightlyBruised }), this.props.addUpScore(this.state.peelPoints.slightlyBruised)]
@@ -84,8 +84,9 @@ this.state.agingTimer > 7 && this.state.agingTimer <= 9 ?
 this.state.agingTimer > 9 && this.state.agingTimer <= 10 ?
 [this.setState({ peelQuality: "bruised", score: this.state.score + this.state.peelPoints.bruised }), this.props.addUpScore(this.state.peelPoints.bruised)]
 :
-this.state.agingTimer > 11 && this.state.agingTimer <= 12 ?
+this.state.agingTimer > 11 && this.state.agingTimer <= 13 ?
 [this.setState({ peelQuality: "rotten", score: this.state.score + this.state.peelPoints.rotten }), this.props.addUpScore(this.state.peelPoints.rotten)]
+
 :
 null
 }
@@ -379,6 +380,7 @@ null
     peelResponseTextOk = <Animated.Text>Ok</Animated.Text>
     peelResponseTextBruised = <Animated.Text>Too Late! Bruised!</Animated.Text>
     peelResponseTextRotten = <Animated.Text>Gross! Rotten!</Animated.Text>
+    bananaWasteTextResponse = <Animated.Text>What a waste of potassium!</Animated.Text>
 
 
     peelConfig = {
@@ -408,8 +410,11 @@ render(){
     this.state.agingTimer > 9 && this.state.agingTimer <= 10 ?
     this.phase5Banana
     :
-    this.state.agingTimer > 11 && this.state.agingTimer <= 12 ?
+    this.state.agingTimer > 10 && this.state.agingTimer <= 13 ?
     this.phase6Banana
+    :
+    this.state.agingTimer > 13 && this.state.agingTimer <= 14 ?
+    this.bananaWasteTextResponse
     :
     null
     :
