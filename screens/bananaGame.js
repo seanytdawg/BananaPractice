@@ -43,7 +43,7 @@ export default class BananaGame extends Component {
      peelQuality: "none",
     peelPoints: {darkGreen: -4, lightGreen: -1, yellow: 2, yellowSpotted: 3, slightlyBruised: 1, bruised: -1, rotten: -5},
     randomBananaPositionX: Math.floor(Math.random() * 200 - 100),
-    randomBananaPositionY: Math.floor(Math.random() * 100 - 150 )
+    randomBananaPositionY: Math.floor(Math.random() * 350 + 150 )
     }
 
     
@@ -69,6 +69,10 @@ export default class BananaGame extends Component {
         let key = 0
     setInterval(
         () => {
+            this.state.bananaArray.forEach(banana=>
+                console.log(banana)
+                )
+
            let  newBanana = 
                 <MasterBanana barrelPositionIndex={this.state.barrelPositionIndex}
                     randomBananaPositionX={this.state.randomBananaPositionX}
@@ -80,10 +84,11 @@ export default class BananaGame extends Component {
                 //     removeBanana={this.removeBanana}
                     />
                     key ++
-                    console.log("new",newBanana)
-                    console.log(this.state.bananaArray)
+                    console.log("game random y", this.state.randomBananaPositionY)
+                    console.log("new",newBanana.randomBananaPositionY)
+                    // console.log(this.state.bananaArray)
                 if(this.state.bananaArray && newBanana){
-            this.setState({ bananaArray: [...this.state.bananaArray, newBanana], randomBananaPositionX: Math.floor(Math.random() * 200 - 100), randomBananaPositionY: Math.floor(Math.random() * 400 + 200)})
+            this.setState({ bananaArray: [...this.state.bananaArray, newBanana], randomBananaPositionX: Math.floor(Math.random() * 200 - 100), randomBananaPositionY: Math.floor(Math.random() * 350 + 150)})
         }},
         5000);}
     
