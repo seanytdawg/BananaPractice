@@ -70,25 +70,25 @@ componentWillUnmount(){
         )
    
 this.state.agingTimer > 0 && this.state.agingTimer <= 2 ?
-    [this.setState({ peelQuality: "not-nearly-ready", score: this.state.score + this.state.peelPoints.darkGreen }), this.props.addUpScore(this.state.peelPoints.darkGreen)]
+    [this.setState({ peelQuality: "not-nearly-ready", score: this.state.score + this.state.peelPoints.darkGreen }), this.props.addUpScore(this.state.peelPoints.darkGreen), this.props.takePropsFromMasterBanana("not-nearly-ready")]
 :
 this.state.agingTimer > 2 && this.state.agingTimer <= 4 ?
-[this.setState({ peelQuality: "not-quite", score: this.state.score + this.state.peelPoints.lightGreen }), this.props.addUpScore(this.state.peelPoints.lightGreen)]
+        [this.setState({ peelQuality: "not-quite", score: this.state.score + this.state.peelPoints.lightGreen }), this.props.addUpScore(this.state.peelPoints.lightGreen), this.props.takePropsFromMasterBanana("not-quite")]
 :
 this.state.agingTimer > 4 && this.state.agingTimer <= 6 ?
- [this.setState({ peelQuality: "good", score: this.state.score + this.state.peelPoints.yellow }), this.props.addUpScore(this.state.peelPoints.yellow)]
+            [this.setState({ peelQuality: "good", score: this.state.score + this.state.peelPoints.yellow }), this.props.addUpScore(this.state.peelPoints.yellow), this.props.takePropsFromMasterBanana("good")]
 :
 this.state.agingTimer > 6 && this.state.agingTimer <= 7 ?
-[this.setState({ peelQuality: "yellow-spotted", score: this.state.score + this.state.peelPoints.yellowSpotted }), this.props.addUpScore(this.state.peelPoints.yellowSpotted)]
+                [this.setState({ peelQuality: "yellow-spotted", score: this.state.score + this.state.peelPoints.yellowSpotted }), this.props.addUpScore(this.state.peelPoints.yellowSpotted), this.props.takePropsFromMasterBanana("yellow-spotted")]
 :
 this.state.agingTimer > 7 && this.state.agingTimer <= 9 ?
- [this.setState({ peelQuality: "Ok", score: this.state.score + this.state.peelPoints.slightlyBruised }), this.props.addUpScore(this.state.peelPoints.slightlyBruised)]
+                    [this.setState({ peelQuality: "Ok", score: this.state.score + this.state.peelPoints.slightlyBruised }), this.props.addUpScore(this.state.peelPoints.slightlyBruised), this.props.takePropsFromMasterBanana("ok")]
 :
 this.state.agingTimer > 9 && this.state.agingTimer <= 10 ?
-[this.setState({ peelQuality: "bruised", score: this.state.score + this.state.peelPoints.bruised }), this.props.addUpScore(this.state.peelPoints.bruised)]
+                        [this.setState({ peelQuality: "bruised", score: this.state.score + this.state.peelPoints.bruised }), this.props.addUpScore(this.state.peelPoints.bruised), this.props.takePropsFromMasterBanana("bruised")]
 :
 this.state.agingTimer > 11 && this.state.agingTimer <= 13 ?
-[this.setState({ peelQuality: "rotten", score: this.state.score + this.state.peelPoints.rotten }), this.props.addUpScore(this.state.peelPoints.rotten)]
+                            [this.setState({ peelQuality: "rotten", score: this.state.score + this.state.peelPoints.rotten }), this.props.addUpScore(this.state.peelPoints.rotten), this.props.takePropsFromMasterBanana("rotten")]
 
 :
 null
@@ -400,7 +400,7 @@ animateText(){
 
     peelConfig = {
         velocityThreshold: -1000,
-        directionalOffsetThreshold: .1
+        directionalOffsetThreshold: .01
     }
 
 render(){
@@ -440,14 +440,15 @@ render(){
     this.state.bananaPeelProcess === "peeled" ?
     [this.peeledBanana, 
         this.state.swipedForBarrel ? null :
-         this.bananaPeel,
-          <ResponseText 
-                 peelQuality = {this.state.peelQuality}
-                 peelPoints = {this.state.peelPoints}
-                 peelToBarrelSuccess = {this.state.peelToBarrelSuccess}
-                 missedBarrel = {this.state.missedBarrel}
+         this.bananaPeel]
+        //   <ResponseText 
+        //          peelQuality = {this.state.peelQuality}
+        //          peelPoints = {this.state.peelPoints}
+        //          peelToBarrelSuccess = {this.state.peelToBarrelSuccess}
+        //          missedBarrel = {this.state.missedBarrel}
+        //          style={styles.funkyText}
 
-         />]
+        //  />]
     //  this.state.peelQuality === "not-nearly-ready" ? [this.peelResponseTextNotNearlyReady, () => this.animateText()]
     // : this.state.peelQuality === "not-quite" ? this.peelResponseTextNotQuite
     // : this.state.peelQuality === "good" ? this.peelResponseTextGood
@@ -485,6 +486,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         top: 200,
-        left: 50
+        left: 50,
+        zIndex: 50
     }
 });

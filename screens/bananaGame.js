@@ -8,6 +8,7 @@ import BareBanana from '../components/bareBanana'
 import GameClock from '../components/gameClock';
 import ScoreBoard from '../components/scoreBoard';
 import {Wave} from 'react-animated-text'
+
 import MasterBanana from '../components/masterBanana'
 export default class BananaGame extends Component {
     state = { 
@@ -45,10 +46,14 @@ export default class BananaGame extends Component {
      peelQuality: "none",
     peelPoints: {darkGreen: -4, lightGreen: -1, yellow: 2, yellowSpotted: 3, slightlyBruised: 1, bruised: -1, rotten: -5},
     randomBananaPositionX: Math.floor(Math.random() * 200 - 100),
-    randomBananaPositionY: Math.floor(Math.random() * 350 + 150 )
+    randomBananaPositionY: Math.floor(Math.random() * 200 + 200 )
     }
 
     
+    takePropsFromMasterBanana=(peelQuality)=>{
+        this.setState({peelQuality: peelQuality})
+    }
+
     componentDidMount = () => {
             
     this.interval = setInterval(
@@ -87,7 +92,7 @@ export default class BananaGame extends Component {
         else if (!this.state.tooClose){
             setInterval(
                 () => {
-                    console.log(this.state.tooClose)
+                    // console.log(this.state.tooClose)
                     // console.log("far enough")
                     
                     let  newBanana = 
@@ -97,6 +102,7 @@ export default class BananaGame extends Component {
                     addUpScore={this.addUpScore}
                     anyBarrelPosition ={this.state.anyBarrelPosition}
                     key={key}
+                            takePropsFromMasterBanana={this.takePropsFromMasterBanana}
                     //    key={Math.floor(Math.random() * 10000)}
                         // removeBanana={this.removeBanana}
                     />
@@ -130,7 +136,9 @@ export default class BananaGame extends Component {
         return (
         <View>
                 <Animated.View>
-            <ScoreBoard score={this.state.score}/>
+            <ScoreBoard score={this.state.score} 
+            peelQuality={this.state.peelQuality}
+            />
                 </Animated.View>
                 <Animated.View style={[styles.container, {top: 1, left: -160}]}>
                     <Text style={10}>Time: </Text>
@@ -139,7 +147,7 @@ export default class BananaGame extends Component {
                 <Animated.View style={[styles.container, { left: this.state.anyBarrelPosition[this.state.barrelPositionIndex].x, top: this.state.anyBarrelPosition[this.state.barrelPositionIndex].y }]}>
                 <Barrel />
                 </Animated.View>
-                <Animated.View>
+                <Animated.View style={styles.container}>
                     {this.state.bananaArray}
                 </Animated.View>
          </View>
@@ -149,7 +157,7 @@ export default class BananaGame extends Component {
   const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+    backgroundColor: '#34E4EA',
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native'
 export default function ScoreBoard(props) {
     return (
         <View style={styles.where}>
+            <Text>{props.peelQuality}</Text>
             <Text style = {styles.titleText}>Score:</Text>
             <Text>{props.score}</Text>
         </View>
