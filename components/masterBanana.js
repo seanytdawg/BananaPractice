@@ -1,6 +1,6 @@
 'use strict'
 import React, { useState, Component, Dimensions } from 'react';
-import { StyleSheet, Text, View, Animated, Image, PanResponder } from 'react-native';
+import { StyleSheet, Text, View, Animated, Image, PanResponder, Button } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BananaPhase1 from './bananaPhase1'
 import BananaPhase2 from './bananaPhase2'
@@ -11,16 +11,19 @@ import BananaPhase6 from './bananaPhase6'
 import YellowSpotted from './yellowSpotted'
 import HalfPeeledBanana from './halfPeeled'
 import BareBanana from './bareBanana'
+import ResponseText from './responseText'
+
 
 export default class MasterBanana extends Component {
 state = {
     bananaPosition: new Animated.ValueXY({ x: this.props.randomBananaPositionX, y: this.props.randomBananaPositionY }),
     bananaPhase: 0,
     displayedText: new Animated.Value(0),
-    bareBananaPosition: new Animated.ValueXY({ x: (this.props.randomBananaPositionX + 10), y: (this.props.randomBananaPositionY - 101) }),
+    bareBananaPosition: new Animated.ValueXY({ x: (this.props.randomBananaPositionX + 5), y: (this.props.randomBananaPositionY - 70) }),
     swipedRight: false,
     swipedLeft: false,
     swipedUp: false,
+    animatedText: new Animated.Value(0),
     swipedDown: false,
     swipedForBarrel: false,
     bananaPeelProcess: 'full',
@@ -60,10 +63,10 @@ componentWillUnmount(){
 
     peelTheBanana = () => {
 
-        this.setState({ bananaPeelProcess: "peeled" }
-        // , () => {
-        //     setTimeout(() => this.setState({ bananaPeelProcess: "peeled" }), 100)
-        // }
+        this.setState({ bananaPeelProcess: "half-peeled" }
+        , () => {
+            setTimeout(() => this.setState({ bananaPeelProcess: "peeled" }), 100)
+        }
         )
    
 this.state.agingTimer > 0 && this.state.agingTimer <= 2 ?
@@ -108,13 +111,15 @@ null
 //     }
 
     animateSwipedUp = () => {
-        console.log(this.props.barrelPositionIndex)
+        // console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
             toValue: this.props.anyBarrelPosition[0],
             
             duration: 500,
         }).start(
-            () => { this.setState({ swipedForBarrel: true }) }
+            () => { this.setState({ swipedForBarrel: true })
+            // this.props.removeBanana(this.props.key)
+        }
         );
 
         Animated.timing(this.state.bareBananaPosition, {
@@ -135,7 +140,7 @@ null
         }
     }
     animateSwipedDown = () => {
-        console.log(this.props.barrelPositionIndex)
+        // console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
             toValue: this.props.anyBarrelPosition[3],
             duration: 500,
@@ -161,7 +166,7 @@ null
         }
     }
     animateSwipedLeft = () => {
-        console.log(this.props.barrelPositionIndex)
+        // console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
             toValue: this.props.anyBarrelPosition[1],
             duration: 500,
@@ -188,7 +193,7 @@ null
         }
     }
     animateSwipedRight = () => {
-        console.log(this.props.barrelPositionIndex)
+        // console.log(this.props.barrelPositionIndex)
         Animated.timing(this.state.bananaPosition, {
             toValue: this.props.anyBarrelPosition[2],
             duration: 500,
@@ -253,7 +258,6 @@ this.setState({ bananaPhase: 6 })
 :
 null
     }
-
     phase1Banana =
         <View>
             <Animated.View style={[styles.container, this.state.bananaPosition.getLayout()]}
@@ -356,6 +360,7 @@ null
                 onSwipeDown={this.animateSwipedDown}
                 onSwipeLeft={this.animateSwipedLeft}
                 onSwipeRight={this.animateSwipedRight}
+                config={this.config}
             >
                 <Animated.View>
                     <Image source={require('../assets/banana-peeling/banana-peel.png')} style={styles.peelImage} />
@@ -372,25 +377,36 @@ null
             </Animated.View>
         </View>;
 
+//  opacity = this.state.animatedText.interpolate({
+//     inputRange: [0,1],
+//     outputRange: [1,0]
+// })
+animateText(){
+    console.log("trying to animate")
+     Animated.timing(this.state.animatedText, {
+        toValue: 0,
+        duration: 500
+    }).start()
+}
 
-    peelResponseTextNotNearlyReady = <Animated.Text>Way too Early</Animated.Text>
-    peelResponseTextNotQuite = <Animated.Text>Not Quite</Animated.Text>
-    peelResponseTextGood = <Animated.Text>Nice One</Animated.Text>
-    peelResponseTextYellowSpotted = <Animated.Text>Yellow Spotted Bonus!</Animated.Text>
-    peelResponseTextOk = <Animated.Text>Ok</Animated.Text>
-    peelResponseTextBruised = <Animated.Text>Too Late! Bruised!</Animated.Text>
-    peelResponseTextRotten = <Animated.Text>Gross! Rotten!</Animated.Text>
-    bananaWasteTextResponse = <Animated.Text>What a waste of potassium!</Animated.Text>
-
+    peelResponseTextNotNearlyReady = <Animated.Text style = {[styles.funkyText, {opacity: this.state.animatedText}]}>Way too Early</Animated.Text>
+    peelResponseTextNotQuite = <Animated.Text style={styles.funkyText}>Not Quite</Animated.Text>
+    peelResponseTextGood = <Animated.Text style={styles.funkyText}>Nice One</Animated.Text>
+    peelResponseTextYellowSpotted = <Animated.Text style={styles.funkyText}>Yellow Spotted Bonus!</Animated.Text>
+    peelResponseTextOk = <Animated.Text style={styles.funkyText}>Ok</Animated.Text>
+    peelResponseTextBruised = <Animated.Text style={styles.funkyText}>Too Late! Bruised!</Animated.Text>
+    peelResponseTextRotten = <Animated.Text style={styles.funkyText}>Gross! Rotten!</Animated.Text>
+    bananaWasteTextResponse = <Animated.Text style={styles.funkyText}>What a waste of potassium!</Animated.Text>
 
     peelConfig = {
-        velocityThreshold: -100,
-        directionalOffsetThreshold: 1
+        velocityThreshold: -1000,
+        directionalOffsetThreshold: .1
     }
 
 render(){
     return (
     <Animated.View>
+        {/* <Button title="animate text" onPress={()=>this.animateText()}/> */}
     {this.state.bananaPeelProcess === "full" ?
     this.state.agingTimer > 0 && this.state.agingTimer <= 2 ?
     this.phase1Banana
@@ -425,13 +441,20 @@ render(){
     [this.peeledBanana, 
         this.state.swipedForBarrel ? null :
          this.bananaPeel,
-    this.state.peelQuality === "not-nearly-ready" ? this.peelResponseTextNotNearlyReady
-    : this.state.peelQuality === "not-quite" ? this.peelResponseTextNotQuite
-    : this.state.peelQuality === "good" ? this.peelResponseTextGood
-    : this.state.peelQuality === "yellow-spotted" ? this.peelResponseTextYellowSpotted
-    : this.state.peelQuality === "ok" ? this.peelResponseTextOk
-    : this.state.peelQuality === "bruised" ? this.peelResponseTextBruised
-    : this.state.peelQuality === "rotten" ? this.peelResponseTextRotten : null]
+          <ResponseText 
+                 peelQuality = {this.state.peelQuality}
+                 peelPoints = {this.state.peelPoints}
+                 peelToBarrelSuccess = {this.state.peelToBarrelSuccess}
+                 missedBarrel = {this.state.missedBarrel}
+
+         />]
+    //  this.state.peelQuality === "not-nearly-ready" ? [this.peelResponseTextNotNearlyReady, () => this.animateText()]
+    // : this.state.peelQuality === "not-quite" ? this.peelResponseTextNotQuite
+    // : this.state.peelQuality === "good" ? this.peelResponseTextGood
+    // : this.state.peelQuality === "yellow-spotted" ? this.peelResponseTextYellowSpotted
+    // : this.state.peelQuality === "ok" ? this.peelResponseTextOk
+    // : this.state.peelQuality === "bruised" ? this.peelResponseTextBruised
+    // : this.state.peelQuality === "rotten" ? this.peelResponseTextRotten : null]
     :
                         null}        
         </Animated.View>
@@ -449,8 +472,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     peelImage: {
-        height: 120,
-        width: 180
+        height: 96,
+        width: 144
     },
     swipedUp: {
         transform: [

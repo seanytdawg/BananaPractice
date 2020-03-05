@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
 
     banana: {
         position: "absolute",
-        height: 105,
-        width: 110,
+        height: 84,
+        width: 88,
 
     }
 

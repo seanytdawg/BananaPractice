@@ -11,6 +11,7 @@ import {Wave} from 'react-animated-text'
 import MasterBanana from '../components/masterBanana'
 export default class BananaGame extends Component {
     state = { 
+        tooClose: false,
         bananaPosition: new Animated.ValueXY({ x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 100)}),
         StartingBarrelPosition: new Animated.ValueXY({x: -20, y: 40}),
         barrelLeft: {x: -190, y: 350},
@@ -20,6 +21,7 @@ export default class BananaGame extends Component {
         anyBarrelPosition: [{ x: -20, y: 0 }, { x: -190, y: 200 }, { x: 130, y: 200 }, { x: -20, y: 500 }],
         bareBananaPosition: new Animated.ValueXY({x: 10, y: 199}),
         barrelPositionIndex: 2,
+        newBanana: null,
         bananaPeelHeight:  new Animated.Value(80),
         bananaPeelWidth: new Animated.Value(60),
         bananaPeelSize: new Animated.ValueXY({ x: 120, y: 180 }),
@@ -51,6 +53,7 @@ export default class BananaGame extends Component {
             
     this.interval = setInterval(
         () => {
+            // console.log(this.state.tooClose)
             this.setState((prevState) => ({ barrelTimer: prevState.barrelTimer + 1 }))
             if (this.state.barrelTimer % 10 === 0) {
                 // console.log("barrel time!")
@@ -62,37 +65,53 @@ export default class BananaGame extends Component {
             }
         },
         1000);
-
+        console.log("mounted")
         this.renderBananas()
     }
     renderBananas(){
+        console.log("rendering")
         let key = 0
-    setInterval(
-        () => {
-            this.state.bananaArray.forEach(banana=>
-                console.log(banana)
-                )
-
-           let  newBanana = 
-                <MasterBanana barrelPositionIndex={this.state.barrelPositionIndex}
+        //     console.log("xposition", banana.props.randomBananaPositionX)
+        //    console.log("distance", Math.sqrt((banana.props.randomBananaPositionX - this.state.randomBananaPositionX) ** 2 + (banana.props.randomBananaPositionY - this.state.randomBananaPositionY) ** 2))
+        //         [this.setState({tooClose: true}), console.log("it was too close!")]
+        
+        if(this.state.bananaArray.length > 0){
+        this.state.bananaArray.forEach(banana=>
+            this.setState({ tooClose: (Math.sqrt((banana.props.randomBananaPositionX - this.state.randomBananaPositionX) ** 2 + (banana.props.randomBananaPositionY - this.state.randomBananaPositionY) ** 2) < 200)})
+            )
+        }
+        
+        if(this.state.tooClose){ 
+            [this.setState({ randomBananaPositionX: Math.floor(Math.random() * 200 - 100), randomBananaPositionY: Math.floor(Math.random() * 400) }), () => { this.renderBananas() }]
+        }
+        else if (!this.state.tooClose){
+            setInterval(
+                () => {
+                    console.log(this.state.tooClose)
+                    // console.log("far enough")
+                    
+                    let  newBanana = 
+                    <MasterBanana barrelPositionIndex={this.state.barrelPositionIndex}
                     randomBananaPositionX={this.state.randomBananaPositionX}
                     randomBananaPositionY={this.state.randomBananaPositionY}
                     addUpScore={this.addUpScore}
                     anyBarrelPosition ={this.state.anyBarrelPosition}
                     key={key}
-                //    key={Math.floor(Math.random() * 10000)}
-                //     removeBanana={this.removeBanana}
+                    //    key={Math.floor(Math.random() * 10000)}
+                        // removeBanana={this.removeBanana}
                     />
                     key ++
-                    console.log("game random y", this.state.randomBananaPositionY)
-                    console.log("new",newBanana.randomBananaPositionY)
+                    
+                    // console.log("game random y", this.state.randomBananaPositionY)
+                    // console.log("new",newBanana.randomBananaPositionY)
                     // console.log(this.state.bananaArray)
-                if(this.state.bananaArray && newBanana){
-            this.setState({ bananaArray: [...this.state.bananaArray, newBanana], randomBananaPositionX: Math.floor(Math.random() * 200 - 100), randomBananaPositionY: Math.floor(Math.random() * 350 + 150)})
-        }},
-        5000);}
-    
-
+                        if(this.state.bananaArray && newBanana){
+                            this.setState({ bananaArray: [...this.state.bananaArray, newBanana], randomBananaPositionX: Math.floor(Math.random() * 200 - 100), randomBananaPositionY: Math.floor(Math.random() * 400)})
+                        }    
+                },
+            5000) 
+        }
+    }
         addUpScore=(points)=>{
             this.setState({score: this.state.score + points})
         }
@@ -102,7 +121,7 @@ export default class BananaGame extends Component {
        let newArray = this.state.bananaArray.filter(banana=>{
             banana != banana
             this.setState({bananaArray: newArray})
-            console.log("bananaray", this.state.bananaArray.length)
+            // console.log("bananaray", this.state.bananaArray.length)
         })}
         
     }
